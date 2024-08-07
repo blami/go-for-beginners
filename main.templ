@@ -1,0 +1,54 @@
+package main
+
+import "github.com/blami/go-for-beginners/blog"
+
+templ layout(name string) {
+	<html>
+		<head><title>{ name }</title></head>
+        <nav>
+		    <ul>
+			    <li><a href="/">Home</a></li>
+			    <li><a href="/posts">Posts</a></li>
+                <li><a href="/post">Create Post</a></li>
+		    </ul>
+        </nav>
+		<body>
+			<main>
+                <h1>{ name }</h1>
+                { children... }
+			</main>
+		</body>
+	</html>
+}
+
+templ home() {
+    @layout("Home") {
+        <div>Welcome to my blog!</div>
+    }
+}
+
+templ post() {
+    @layout("Create Post") {
+        <form action="/post" method="post">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" />
+            </div>
+            <div>
+                <label for="body">Body:</label>
+                <textarea name="body" id="body" rows="5" cols="24"/>
+            </div>
+            <input type="submit" value="Post!"/>
+        </form>
+    }
+}
+
+templ posts(r blog.Repo) {
+    @layout("Posts") {
+        for _, p := range r.Get() {
+            <h2>{ p.Time.Format("2006-01-02 15:04:05") } - { p.Title }</h2>
+            <div>{ p.Body }</div>
+            <hr />
+        }
+    }
+}

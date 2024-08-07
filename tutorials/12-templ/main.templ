@@ -1,0 +1,16 @@
+package main
+
+func world() string {
+    return "World!"
+}
+
+templ hello() {
+	<html>
+		<head><title>hello templ!</title></head>
+		<body>
+			<main>
+                <h1>Hello { world() }</h1>
+			</main>
+		</body>
+	</html>
+}
